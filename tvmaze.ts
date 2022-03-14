@@ -5,6 +5,7 @@ const $showsList = $("#showsList");
 const $episodesArea = $("#episodesArea");
 const $searchForm = $("#searchForm");
 const BASE_URL = "https://api.tvmaze.com";
+const DEFAULT_IMG = "https://tinyurl.com/tv-missing";
 
 /** Given a search term, search for tv shows that match that query.
  *
@@ -29,7 +30,21 @@ async function getShowsByTerm(term: string) : Promise<ShowInterface[]> {
     }
   });
   console.log('resp', resp);
-  return resp.data;
+
+  const shows:ShowInterface[] = [];
+
+  resp.data.map( show => {
+    shows.push( {
+      id: show.id,
+      name: show.name,
+      summary: show.summary,
+      image: show.image.medium || DEFAULT_IMG,
+    })
+
+  })
+
+  console.log(shows);
+  return shows;
 
 }
 
@@ -66,15 +81,16 @@ function populateShows(shows) {
  *    Hide episodes area (that only gets shown if they ask for episodes)
  */
 
-async function searchForShowAndDisplay() {
-  const term = $("#searchForm-term").val();
+async function searchForShowAndDisplay() :Promise<void> {
+  const term: string = $("#searchForm-term").val().toString();
   const shows = await getShowsByTerm(term);
 
   $episodesArea.hide();
+  console.log("We are about to populate");
   populateShows(shows);
 }
 
-$searchForm.on("submit", async function (evt) {
+$searchForm.on("submit", async function (evt) :Promise<void> {
   evt.preventDefault();
   await searchForShowAndDisplay();
 });
