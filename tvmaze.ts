@@ -40,10 +40,10 @@ async function getShowsByTerm(term: string): Promise<ShowInterface[]> {
       q: term
     }
   });
-
+  //can combine and use map instead of forEach
   const shows: ShowInterface[] = [];
 
-  resp.data.forEach((item: SearchInterface) : void => {
+  resp.data.forEach((item: SearchInterface): void => {
     shows.push({
       id: item.show.id,
       name: item.show.name,
@@ -92,12 +92,11 @@ async function searchForShowAndDisplay(): Promise<void> {
   const shows = await getShowsByTerm(term);
 
   $episodesArea.hide();
-  console.log("We are about to populate");
   populateShows(shows);
 }
 
 //submit even listener for submit button
-$searchForm.on("submit", async function (evt): Promise<void> {
+$searchForm.on("submit", async function (evt: JQuery.SubmitEvent): Promise<void> {
   evt.preventDefault();
   await searchForShowAndDisplay();
 });
@@ -110,7 +109,6 @@ async function getAndShowEpisodes(e: JQuery.ClickEvent): Promise<void> {
   const $showElement = $(e.target);
   const id: string = <string>$showElement.closest('.Show').attr('data-show-id');
   const episodes: EpisodeInterface[] = await getEpisodesOfShow(parseInt(id));
-  console.log('episodes', episodes);
   populateEpisodes(episodes);
   $episodesArea.show();
 }
@@ -134,7 +132,7 @@ interface EpisodeInterface {
 async function getEpisodesOfShow(id: number): Promise<EpisodeInterface[]> {
   const resp = await axios.get(`${BASE_URL}/shows/${id}/episodes`);
 
-  const episodes = resp.data.map((item : EpisodeInterface) : EpisodeInterface => {
+  const episodes = resp.data.map((item: EpisodeInterface): EpisodeInterface => {
     return {
       id: item.id,
       name: item.name,

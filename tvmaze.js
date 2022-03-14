@@ -12808,7 +12808,6 @@ function searchForShowAndDisplay() {
                 case 1:
                     shows = _a.sent();
                     $episodesArea.hide();
-                    console.log("We are about to populate");
                     populateShows(shows);
                     return [2 /*return*/];
             }
@@ -12844,7 +12843,6 @@ function getAndShowEpisodes(e) {
                     return [4 /*yield*/, getEpisodesOfShow(parseInt(id))];
                 case 1:
                     episodes = _a.sent();
-                    console.log('episodes', episodes);
                     populateEpisodes(episodes);
                     $episodesArea.show();
                     return [2 /*return*/];
