@@ -12753,6 +12753,11 @@ var $searchForm = $("#searchForm");
 var BASE_URL = "https://api.tvmaze.com";
 var DEFAULT_IMG = "http://tinyurl.com/tv-missing";
 ;
+;
+/** this function takes in a string
+ * and returns an array of object
+ * => [{id, name, summary, image}]
+ */
 function getShowsByTerm(term) {
     return __awaiter(this, void 0, void 0, function () {
         var resp, shows;
@@ -12765,9 +12770,8 @@ function getShowsByTerm(term) {
                     })];
                 case 1:
                     resp = _a.sent();
-                    console.log('resp', resp);
                     shows = [];
-                    resp.data.map(function (item) {
+                    resp.data.forEach(function (item) {
                         var _a;
                         shows.push({
                             id: item.show.id,
@@ -12776,7 +12780,6 @@ function getShowsByTerm(term) {
                             image: ((_a = item.show.image) === null || _a === void 0 ? void 0 : _a.medium) || DEFAULT_IMG,
                         });
                     });
-                    console.log(shows);
                     return [2 /*return*/, shows];
             }
         });
@@ -12800,7 +12803,7 @@ function searchForShowAndDisplay() {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    term = $("#searchForm-term").val().toString();
+                    term = $("#searchForm-term").val();
                     return [4 /*yield*/, getShowsByTerm(term)];
                 case 1:
                     shows = _a.sent();
@@ -12812,6 +12815,7 @@ function searchForShowAndDisplay() {
         });
     });
 }
+//submit even listener for submit button
 $searchForm.on("submit", function (evt) {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -12826,14 +12830,32 @@ $searchForm.on("submit", function (evt) {
         });
     });
 });
-$('.Show').on("click", "button", getAndShowEpisodes);
-function getAndShowEpisodes() {
+//click event listener for Episode button
+$('#showsList').on("click", ".Show-getEpisodes", getAndShowEpisodes);
+/** this function populate the episodes of a show when button clicked */
+function getAndShowEpisodes(e) {
     return __awaiter(this, void 0, void 0, function () {
+        var $showElement, id, episodes;
         return __generator(this, function (_a) {
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    $showElement = $(e.target);
+                    id = $showElement.closest('.Show').attr('data-show-id');
+                    return [4 /*yield*/, getEpisodesOfShow(parseInt(id))];
+                case 1:
+                    episodes = _a.sent();
+                    console.log('episodes', episodes);
+                    populateEpisodes(episodes);
+                    $episodesArea.show();
+                    return [2 /*return*/];
+            }
         });
     });
 }
+/** this function takes in an id of number
+ * and returns an array of object
+ * => [{id, name, season, number}]
+*/
 function getEpisodesOfShow(id) {
     return __awaiter(this, void 0, void 0, function () {
         var resp, episodes;
