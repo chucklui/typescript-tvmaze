@@ -124,3 +124,4 @@ async function getEpisodesOfShow(id: number) : Promise<EpisodeInterface[]> {
 /** Write a clear docstring for this function... */
 
 // function populateEpisodes(episodes) { }
+// $episodesAre
