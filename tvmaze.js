@@ -12826,6 +12826,14 @@ $searchForm.on("submit", function (evt) {
         });
     });
 });
+$('.Show').on("click", "button", getAndShowEpisodes);
+function getAndShowEpisodes() {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            return [2 /*return*/];
+        });
+    });
+}
 function getEpisodesOfShow(id) {
     return __awaiter(this, void 0, void 0, function () {
         var resp, episodes;
@@ -12847,9 +12855,17 @@ function getEpisodesOfShow(id) {
         });
     });
 }
-/** Write a clear docstring for this function... */
-// function populateEpisodes(episodes) { }
-// $episodesAre
+/** Given an array of episodes {id, name, seasoon, number},
+ * create markup for each and to DOM
+ * */
+function populateEpisodes(episodes) {
+    $episodesArea.empty();
+    for (var _i = 0, episodes_1 = episodes; _i < episodes_1.length; _i++) {
+        var episode = episodes_1[_i];
+        var $episode = $("<li> ".concat(episode.name, " (Season ").concat(episode.season, ", Episode ").concat(episode.number, ")</li>"));
+        $episodesArea.append($episode);
+    }
+}
 
 
 /***/ })

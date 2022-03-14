@@ -96,6 +96,12 @@ $searchForm.on("submit", async function (evt): Promise<void> {
   await searchForShowAndDisplay();
 });
 
+$('.Show').on("click", "button", getAndShowEpisodes);
+
+async function getAndShowEpisodes() :Promise<void> {
+  
+}
+
 
 /** Given a show ID, get from API and return (promise) array of episodes:
  *      { id, name, season, number }
@@ -121,7 +127,19 @@ async function getEpisodesOfShow(id: number) : Promise<EpisodeInterface[]> {
   return episodes;
 }
 
-/** Write a clear docstring for this function... */
+/** Given an array of episodes {id, name, seasoon, number}, 
+ * create markup for each and to DOM  
+ * */
 
-// function populateEpisodes(episodes) { }
-// $episodesAre
+function populateEpisodes(episodes: EpisodeInterface[]) : void {
+  $episodesArea.empty();
+
+  for(let episode of episodes){
+    const $episode = $(
+      `<li> ${episode.name} (Season ${episode.season}, Episode ${episode.number})</li>`
+      );
+    $episodesArea.append($episode)
+  }
+
+
+ }
